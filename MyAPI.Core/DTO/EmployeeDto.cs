@@ -1,0 +1,25 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyAPI.Core.DTO
+{
+    public class EmployeeDto
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public string? Name { get; set; }
+        [Required]
+        public string? City { get; set; }
+
+        public int DepartmentId { get; set; }
+
+        
+        public string? DepartmentName { get; set; }
+
+        
+
+        public PayrollServiceDto? payroll {  get; set; }
+
+    }
+}

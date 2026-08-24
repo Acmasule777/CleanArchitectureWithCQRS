@@ -11,6 +11,10 @@ namespace MyAPI.Core.Entities
         [Required]
         public string? City { get; set; }
 
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
         public int DepartmentId { get; set; }
     }
 }

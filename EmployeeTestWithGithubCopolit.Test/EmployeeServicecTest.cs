@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MyApI.API.Controllers;
-using MyAPI.Application.Commands.Employee;
+using MyAPI.Application.Commands.EmployeeCommand;
 using MyAPI.Application.Interfaces;
 using MyAPI.Application.Validation;
 using MyAPI.Core.DTO;
@@ -22,12 +22,12 @@ namespace EmployeeTestWithGithubCopolit.Test
         //check validation for this employee service incomingdata is valid or not
 
         [Theory]
-        [InlineData("", "pune", "Engineering")]
-        [InlineData((string)null, "pune", "Engineering")]
-        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune", "Engineering")]
-        public void Name_WhenInvalid_ShouldHaveValidationError(string name, string city, string departmentName)
+        [InlineData("", "pune","", "Engineering")]
+        [InlineData((string)null, "pune","", "Engineering")]
+        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune","", "Engineering")]
+        public void Name_WhenInvalid_ShouldHaveValidationError(string name, string city, string Email, string departmentName)
         {
-            var command = new createEmployeeCommand(name, city, departmentName);
+            var command = new createEmployeeCommand(name, city,Email, departmentName);
 
             var result = _validationRules.Validate(command);
 

@@ -1,5 +1,5 @@
 ﻿using Moq;
-using MyAPI.Application.Commands.Employee;
+using MyAPI.Application.Commands.EmployeeCommand;
 using MyAPI.Application.Interfaces;
 using MyAPI.Application.Validation;
 using MyAPI.Core.DTO;
@@ -17,13 +17,13 @@ namespace MyEmployee.Test
         private readonly createEmployeeCommandValidations _validations = new();
 
         [Theory]
-        [InlineData("", "pune", "Engineering")]
-        [InlineData((string)null, "pune", "Engineering")]
-        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune", "Engineering")]
+        [InlineData("", "pune","", "Engineering")]
+        [InlineData((string)null, "pune","", "Engineering")]
+        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune", "","Engineering")]
 
-        public void HandleValidationWhenCreateEmployeeforEmployeeName(string name, string city, string departmentname)
+        public void HandleValidationWhenCreateEmployeeforEmployeeName(string name, string city,string email, string departmentname)
         {
-            var command = new createEmployeeCommand(name, city, departmentname);
+            var command = new createEmployeeCommand(name, city, email, departmentname);
 
             var result = _validations.Validate(command);
 
@@ -33,13 +33,13 @@ namespace MyEmployee.Test
         }
 
         [Theory]
-        [InlineData("jayesh", "", "Engineering")]
-        [InlineData("Jayesh", (string)null, "Engineering")]
-        [InlineData("Jayesh", "punekmjnbhnbhnjbhjbhnhbhnjbbijkj", "Engineering")]
+        [InlineData("jayesh", "","", "Engineering")]
+        [InlineData("Jayesh", (string)null,"", "Engineering")]
+        [InlineData("Jayesh", "punekmjnbhnbhnjbhjbhnhbhnjbbijkj","", "Engineering")]
 
-        public void HandleValidationWhenCreateEmployeeForCity(string name, string city, string departmentname)
+        public void HandleValidationWhenCreateEmployeeForCity(string name, string city,string email, string departmentname)
         {
-            var command = new createEmployeeCommand(name, city, departmentname);
+            var command = new createEmployeeCommand(name, city,email, departmentname);
 
             var result = _validations.Validate(command);
 
@@ -49,9 +49,9 @@ namespace MyEmployee.Test
 
 
         [Theory]
-        [InlineData("Atul", "Dhule", "Engineering", "Employee Successfully Created")]
+        [InlineData("Atul", "Dhule","", "Engineering", "Employee Successfully Created")]
 
-        public async Task HandleTestWhenSuccessfullyCreateEmployee(string name, string city, string department, string expectedString)
+        public async Task HandleTestWhenSuccessfullyCreateEmployee(string name, string city,string email, string department, string expectedString)
         {
             var mockData = new Mock<IEmployee>();
             var mockDepartmentClient = new Mock<IDepartmentServiceClient>();
@@ -63,7 +63,7 @@ namespace MyEmployee.Test
                     .Setup(x => x.GetDepartmentByNameAsync(department))
                     .ReturnsAsync(new DepartmentDto { DepartmentId = 2, DepartmentName = department });
 
-            var command = new createEmployeeCommand(name, city, department);
+            var command = new createEmployeeCommand(name, city, email, department);
             var handler = new createCommandHandler(mockData.Object, mockDepartmentClient.Object);
 
             var result = await handler.Handle(command, CancellationToken.None);

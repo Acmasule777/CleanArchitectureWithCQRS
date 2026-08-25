@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyAPI.Application.Commands.Employee;
+using MyAPI.Application.Commands.EmployeeCommand;
 using MyAPI.Application.Queries.Employee;
 using MyAPI.Core.DTO;
 
@@ -43,6 +43,7 @@ namespace MyApI.API.Controllers
             var result = await _mediator.Send(new createEmployeeCommand(
                 employee.Name,
                 employee.City,
+                employee.Email,
                 employee.DepartmentName
                ));
             return Ok(result);

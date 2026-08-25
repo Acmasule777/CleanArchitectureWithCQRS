@@ -4,6 +4,7 @@ using MyAPI.Application.Interfaces;
 using MyAPI.Core.DTO;
 using MyAPI.Core.Entities;
 using MyAPI.Infrastructure.Persistancy;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyAPI.Infrastructure.Repositories
 {
@@ -25,6 +26,7 @@ namespace MyAPI.Infrastructure.Repositories
                 Id = e.Id,
                 Name = e.Name,
                 City = e.City,
+                Email = e.Email,
                 DepartmentId = e.DepartmentId,
             }).ToListAsync();
         }
@@ -42,16 +44,18 @@ namespace MyAPI.Infrastructure.Repositories
         }
 
 
-        public async Task<string> AddEmployee(EmployeeDto employee)
+        // Replace 'EmployeeEntity' with 'Employee' in AddEmployee method
+        public async Task<int> AddEmployee(EmployeeDto employee)
         {
-           _context.Employees.Add(new Employee
+            _context.Employees.Add(new EmployeeEntity
             {
                 Name = employee.Name,
                 City = employee.City,
+                Email = employee.Email,
                 DepartmentId = employee.DepartmentId
             });
             await _context.SaveChangesAsync();
-            return "Employee added successfully";
+            return employee.Id;
         }
 
         public async Task<string> UpdateEmployee(EmployeeUpdateDto employee)

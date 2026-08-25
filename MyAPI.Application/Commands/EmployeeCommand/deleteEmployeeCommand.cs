@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyAPI.Application.Commands.Employee
+namespace MyAPI.Application.Commands.EmployeeCommand
 {
     public record deleteEmployeeCommand(int id) : IRequest<string>;
 

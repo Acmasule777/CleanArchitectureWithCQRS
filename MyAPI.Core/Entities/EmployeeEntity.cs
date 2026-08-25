@@ -2,7 +2,7 @@
 
 namespace MyAPI.Core.Entities
 {
-    public class Employee
+    public class EmployeeEntity
     {
         [Key]
         public int Id { get; set; }

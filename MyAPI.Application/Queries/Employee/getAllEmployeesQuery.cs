@@ -29,6 +29,7 @@ namespace MyAPI.Application.Queries.Employee
                 Id = e.Id,
                 Name = e.Name,
                 City = e.City,
+                Email = e.Email,
                 DepartmentId = e.DepartmentId,
                 DepartmentName = DepartmentLookup.TryGetValue(e.DepartmentId, out var name) ? name : "Unknown",
                   payroll = Payrolls

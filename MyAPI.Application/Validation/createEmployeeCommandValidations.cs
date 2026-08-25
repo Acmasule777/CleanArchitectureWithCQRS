@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MyAPI.Application.Commands.Employee;
+using MyAPI.Application.Commands.EmployeeCommand;
 using System;
 using System.Collections.Generic;
 using System.Linq;

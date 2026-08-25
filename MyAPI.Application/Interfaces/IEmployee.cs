@@ -14,6 +14,6 @@ namespace MyAPI.Application.Interfaces
         Task<EmployeeDto> GetEmployeeById(int id);
         Task<string> UpdateEmployee(EmployeeUpdateDto employee);
         Task<string> DeleteEmployee(int id);
-        Task<string> AddEmployee(EmployeeDto dto);
+        Task<int> AddEmployee(EmployeeDto dto);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Employee.Infrastructure.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MyAPI.Application.Interfaces;
@@ -23,6 +24,9 @@ namespace MyAPI.Infrastructure
             Services.AddScoped<IEmployee, EmployeeRepository>();
             Services.AddScoped<IDepartmentServiceClient, DepartmentRepoClient>();
             Services.AddScoped<IPayrollRepositoryClient, PayrollRespositoryClient>();
+
+            Services.AddScoped<IRabbitMQPublisher, RabbitMQPublisher>();
+           
             return Services;
         }
 

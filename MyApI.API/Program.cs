@@ -1,3 +1,4 @@
+using Employee.Infrastructure.Messaging;
 using FluentValidation;
 using MyApI.API;
 using MyApI.API.Exceptions;
@@ -12,6 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDiApi(builder.Configuration);
+
+builder.Services.AddScoped<RabbitMQPublisher>();
 
 builder.Services.AddHttpClient("DepartmentService", client =>
 {

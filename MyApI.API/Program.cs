@@ -3,6 +3,7 @@ using FluentValidation;
 using MyApI.API;
 using MyApI.API.Exceptions;
 using MyAPI.Application.Validation;
+using MyAPI.Infrastructure.messanger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDiApi(builder.Configuration);
 
 builder.Services.AddScoped<RabbitMQPublisher>();
+builder.Services.AddHostedService<FromDepartmentNameGetIdConsumer>();
 
 builder.Services.AddHttpClient("DepartmentService", client =>
 {

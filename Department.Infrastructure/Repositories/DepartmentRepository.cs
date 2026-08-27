@@ -5,6 +5,7 @@ using DepartmentCore.Core.DTOs;
 using DepartmentCore.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared;
 
 
 namespace Department.Infrastructure.Repositories
@@ -12,10 +13,11 @@ namespace Department.Infrastructure.Repositories
     public class DepartmentRepository : IDepartment
     {
         private readonly AppDepartmentDbContext _context;
-
-        public DepartmentRepository(AppDepartmentDbContext context)
+        private readonly IDepartmentIdPublisher _publisher;
+        public DepartmentRepository(AppDepartmentDbContext context, IDepartmentIdPublisher publisher)
         {
             _context = context;
+            _publisher = publisher;
         }
 
         public async Task<int> AddAsync(DepartmentDto department)
@@ -33,6 +35,38 @@ namespace Department.Infrastructure.Repositories
             return Id;
         }
 
+
+        public async Task<DepartmentDto?> GetByNameAsync2(GetDepartmentRequest request)
+        {
+            var department = await _context.Departments
+                .FirstOrDefaultAsync(d => d.DepartmentName.ToLower() == request.DepartmentName.ToLower());
+
+            if (department is null)
+                return null;
+
+            var DepartmentResponse = new GetDepartmentResponse
+            {
+                DepartmentId = department.DepartmentId,
+                DepartmentName = department.DepartmentName,
+                CorrelationId = request.CorrelationId
+            };
+
+            await _publisher.DepartmentIdPublishByName(DepartmentResponse);
+
+            return new DepartmentDto();
+
+
+            /*return new DepartmentDto
+            {
+                DepartmentId = department.DepartmentId,
+                DepartmentName = department.DepartmentName
+            };*/
+        }
+
+
+
+
+
         public async Task<DepartmentDto?> GetByNameAsync(string name)
         {
             var department = await _context.Departments
@@ -40,6 +74,18 @@ namespace Department.Infrastructure.Repositories
 
             if (department is null)
                 return null;
+
+            //var DepartmentResponse = new GetDepartmentResponse
+            //{
+            //    DepartmentId = department.DepartmentId,
+            //    DepartmentName = department.DepartmentName,
+            //    CorrelationId = request.CorrelationId
+            //};
+
+            // await _publisher.DepartmentIdPublishByName(DepartmentResponse);
+
+            //return new DepartmentDto();
+
 
             return new DepartmentDto
             {

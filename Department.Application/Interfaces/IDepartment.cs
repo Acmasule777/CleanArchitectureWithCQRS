@@ -1,4 +1,5 @@
 ﻿using DepartmentCore.Core.DTOs;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,11 @@ namespace Department.Application.Interfaces
         Task<string> UpdateDepartment(UpdateDepartmentDto department);
         Task<string> DeleteDepartment(int id);
 
+        Task<DepartmentDto?> GetByNameAsync2(GetDepartmentRequest request);
+
         Task<DepartmentDto?> GetByNameAsync(string name);
+
+
 
         Task<int> AddAsync(DepartmentDto department);
     }

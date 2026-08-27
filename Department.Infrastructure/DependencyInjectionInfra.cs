@@ -1,4 +1,5 @@
 ﻿using Department.Application.Interfaces;
+using Department.Infrastructure.Messaging;
 using Department.Infrastructure.Persistency;
 using Department.Infrastructure.Repositories;
 using DepartmentCore.Core.Opetions;
@@ -21,6 +22,7 @@ namespace Department.Infrastructure
             UseSqlServer(serviceprovider.GetRequiredService<IOptionsMonitor<ConnectionOpetionPattern>>().CurrentValue.DefaulConnections));
 
             services.AddScoped<IDepartment, DepartmentRepository>();
+            services.AddScoped<IDepartmentIdPublisher, DepartmentIdMessagePublisher>();
 
             return services;
         }

@@ -1,6 +1,7 @@
 using Department.API;
 using Department.API.Exception;
 using Department.Application.Validation;
+using Department.Infrastructure.Messaging;
 using FluentValidation;
 
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDiDepartmentApi(builder.Configuration);
+builder.Services.AddHostedService<DepartmentConsumerFromEmployee>();
 
 builder.Services.AddValidatorsFromAssembly(typeof(CreateDepartmentValidationCommand).Assembly);
 

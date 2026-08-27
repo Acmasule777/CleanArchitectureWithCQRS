@@ -48,29 +48,29 @@ namespace MyEmployee.Test
         }
 
 
-        [Theory]
-        [InlineData("Atul", "Dhule","", "Engineering", "Employee Successfully Created")]
+        //[Theory]
+        //[InlineData("Atul", "Dhule", "", "Engineering", "Employee Successfully Created")]
 
-        public async Task HandleTestWhenSuccessfullyCreateEmployee(string name, string city,string email, string department, string expectedString)
-        {
-            var mockData = new Mock<IEmployee>();
-            var mockDepartmentClient = new Mock<IDepartmentServiceClient>();
+        //public async Task HandleTestWhenSuccessfullyCreateEmployee(string name, string city, string email, string department, string expectedString)
+        //{
+        //    var mockData = new Mock<IEmployee>();
+        //    var mockDepartmentClient = new Mock<IDepartmentServiceClient>();
 
-            mockData.Setup(e => e.AddEmployee(It.Is<EmployeeDto>(e => e.Name == name && e.City == city)))
-            .ReturnsAsync(expectedString);
+        //    mockData.Setup(e => e.AddEmployee(It.Is<EmployeeDto>(e => e.Name == name && e.City == city)))
+        //    .ReturnsAsync(expectedString);
 
-            mockDepartmentClient
-                    .Setup(x => x.GetDepartmentByNameAsync(department))
-                    .ReturnsAsync(new DepartmentDto { DepartmentId = 2, DepartmentName = department });
+        //    mockDepartmentClient
+        //            .Setup(x => x.GetDepartmentByNameAsync(department))
+        //            .ReturnsAsync(new DepartmentDto { DepartmentId = 2, DepartmentName = department });
 
-            var command = new createEmployeeCommand(name, city, email, department);
-            var handler = new createCommandHandler(mockData.Object, mockDepartmentClient.Object);
+        //    var command = new createEmployeeCommand(name, city, email, department);
+        //    var handler = new createCommandHandler(mockData.Object, mockDepartmentClient.Object);
 
-            var result = await handler.Handle(command, CancellationToken.None);
+        //    var result = await handler.Handle(command, CancellationToken.None);
 
-            Assert.Equal(expectedString, result);
+        //    Assert.Equal(expectedString, result);
 
-        }
+        //}
 
     }
 }

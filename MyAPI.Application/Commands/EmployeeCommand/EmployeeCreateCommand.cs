@@ -2,22 +2,34 @@
 using MyAPI.Application.Interfaces;
 using MyAPI.Core.DTO;
 using Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MyAPI.Application.Commands.EmployeeCommand
 {
     public record createEmployeeCommand (string Name, string City, string Email, string DepartmentName) : IRequest<string>;
-    public class createCommandHandler(IEmployee Emprepository, IDepartmentServiceClient DmpRepository, IRabbitMQPublisher rabbitMQPublisher ) : IRequestHandler<createEmployeeCommand, string>
+    public class createCommandHandler(IEmployee Emprepository, 
+        IDepartmentServiceClient DmpRepository, 
+        IRabbitMQPublisher rabbitMQPublisher
+        /*IPublishDepartmentName rabbitmqDepartmentName,
+        IDepartmentIdResponseService ResposeFromDepartment*/) : IRequestHandler<createEmployeeCommand, string>
     {
 
         public async Task<string> Handle(createEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var existingDepartment = await DmpRepository.GetDepartmentByNameAsync(request.DepartmentName);
+
+            //this is object for request-reply processing
+            //var departmentNameRequest = new GetDepartmentRequest
+            //{
+            //    DepartmentName = request.DepartmentName,
+            //    CorrelationId = Guid.NewGuid().ToString()
+            //};
+
+           var existingDepartment = await DmpRepository.GetDepartmentByNameAsync(request.DepartmentName);
+
+            //This below code is for RabbitMq Request-reply messaging
+           // await rabbitmqDepartmentName.PublishMessageForDepartment(departmentNameRequest);
+
+           //var existedDepartment = await ResposeFromDepartment.returnToHandler();
 
             int departmentId;
 

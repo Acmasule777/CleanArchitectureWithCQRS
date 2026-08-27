@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MyAPI.Application.Interfaces;
 using MyAPI.Core.Opetions;
+using MyAPI.Infrastructure.messanger;
 using MyAPI.Infrastructure.Persistancy;
 using MyAPI.Infrastructure.Repositories;
 using System;
@@ -26,7 +27,9 @@ namespace MyAPI.Infrastructure
             Services.AddScoped<IPayrollRepositoryClient, PayrollRespositoryClient>();
 
             Services.AddScoped<IRabbitMQPublisher, RabbitMQPublisher>();
-           
+            Services.AddScoped<IPublishDepartmentName, RabbitMQPublisherDepartmentName>();
+            Services.AddSingleton<IDepartmentIdResponseService,DepartmentIdResponseService>();
+
             return Services;
         }
 

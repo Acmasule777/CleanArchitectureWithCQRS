@@ -35,3 +35,13 @@ jobs:
 
       - name: Build Employee Docker image
         run: docker build -t employee-service:latest -f MyApI.API/Dockerfile .
+
+      - name: Build Department Docker image
+        run: docker build -t department-service-ciimage:latest -f MyDepartment.API/Dockerfile .
+
+      - name: Build Payroll Docker image
+        run: docker build -t payroll-service-ciimage:latest -f Payroll.API/Dockerfile .
+
+      - name: Build notification Docker image
+        run: docker build -t notification-service-ciimage:latest -f Notification.API/Dockerfile .
+

@@ -18,17 +18,8 @@ builder.Services.AddDiApi(builder.Configuration);
 builder.Services.AddScoped<RabbitMQPublisher>();
 builder.Services.AddHostedService<FromDepartmentNameGetIdConsumer>();
 
-builder.Services.AddHttpClient("DepartmentService", client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5297/");
-    
-});
-
-builder.Services.AddHttpClient("PayrollService", client =>
-{
-client.BaseAddress = new Uri("http://localhost:5233/");
-
-});
+builder.Services.AddHttpClient("DepartmentService", client => { client.BaseAddress = new Uri("http://localhost:5297/"); });
+builder.Services.AddHttpClient("PayrollService", client => { client.BaseAddress = new Uri("http://localhost:5233/"); });
 
 builder.Services.AddValidatorsFromAssembly(typeof(createEmployeeCommandValidations).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(updateEmployeeValidationCommand).Assembly);

@@ -23,8 +23,8 @@ public class EmployeeCreatedConsumer : BackgroundService
     {
         var factory = new ConnectionFactory
         {
-            HostName = "localhost",
-            Port = 5673,
+            HostName = "rabbitmq-docker",
+            Port = 5672,
             UserName = "guest",
             Password = "guest"
         };

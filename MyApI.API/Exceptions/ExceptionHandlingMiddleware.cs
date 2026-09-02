@@ -10,7 +10,6 @@ namespace MyApI.API.Exceptions
         {
             _next = next;
         }
-
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -28,3 +27,4 @@ namespace MyApI.API.Exceptions
         }
     }
 }
+

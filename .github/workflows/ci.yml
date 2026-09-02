@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#this is below is docker tag for images to docker hub
+#this is below is docker tag for images to add into docker hub
 
       - name: Tag Employee image
         run: docker tag employee-service:latest ${{ secrets.DOCKER_USERNAME }}/employee-service-latest

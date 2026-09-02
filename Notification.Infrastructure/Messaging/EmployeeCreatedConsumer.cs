@@ -24,7 +24,7 @@ public class EmployeeCreatedConsumer : BackgroundService
         var factory = new ConnectionFactory
         {
             HostName = "localhost",
-            Port = 5672,
+            Port = 5673,
             UserName = "guest",
             Password = "guest"
         };

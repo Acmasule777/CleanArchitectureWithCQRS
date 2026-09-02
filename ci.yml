@@ -1,0 +1,34 @@
+name: Microservices .NET CI
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore CleanArchitectureWithCQRS.sln
+
+      - name: Build solution
+        run: dotnet build CleanArchitectureWithCQRS.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test CleanArchitectureWithCQRS.sln --no-build --configuration Release

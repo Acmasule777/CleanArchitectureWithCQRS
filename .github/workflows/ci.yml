@@ -34,4 +34,4 @@ jobs:
         run: dotnet test CleanArchitectureWithCQRS.sln --no-build --configuration Release
 
       - name: Build Employee Docker image
-        run: docker build -t employee-service-ci-pipeline:latest ./MyApI.API
+        run: docker build -t employee-service:latest -f MyApI.API/Dockerfile .

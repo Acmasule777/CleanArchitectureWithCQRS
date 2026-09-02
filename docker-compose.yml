@@ -1,0 +1,51 @@
+services:
+
+  department-service:
+    image: department-service
+    container_name: departmentservice
+    ports:
+      - "5051:8080"
+    networks:
+    - employee-network
+    # restart: unless-stopped
+
+
+  payroll-service:
+    image: payroll-service
+    container_name: payrollservice
+    ports:
+      - "5052:8080"
+    depends_on:
+      - department-service
+    networks:
+    - employee-network
+    # restart: unless-stopped
+
+
+  notification-service:
+    image: notification-service
+    container_name: notificationservice
+    ports:
+      - "5053:8080"
+    networks:
+    - employee-network
+    # restart: unless-stopped
+
+
+  employee-service:
+    image: employee-service
+    container_name: employeeservice
+    ports:
+      - "5050:8080"
+    depends_on:
+      - department-service
+      - payroll-service
+      - notification-service
+    networks:
+    - employee-network
+  
+networks:
+    employee-network:
+       external: true
+
+     # restart: unless-stopped

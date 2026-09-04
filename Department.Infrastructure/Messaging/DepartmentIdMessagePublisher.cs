@@ -14,12 +14,20 @@ namespace Department.Infrastructure.Messaging
     {
         public async Task DepartmentIdPublishByName(GetDepartmentResponse responce)
         {
-            var factory = new ConnectionFactory()
+            //var factory = new ConnectionFactory()
+            //{
+            //    HostName = "rabbitmq-docker",
+            //    Port = 5672,
+            //    UserName = "guest",
+            //    Password = "guest",
+            //};
+
+            var factory = new ConnectionFactory
             {
-                HostName = "rabbitmq-docker",
-                Port = 5672,
+                HostName = "localhost",
+                Port = 5673,
                 UserName = "guest",
-                Password = "guest",
+                Password = "guest"
             };
 
             var connection = await factory.CreateConnectionAsync();

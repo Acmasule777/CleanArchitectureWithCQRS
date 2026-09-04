@@ -28,7 +28,8 @@ namespace MyAPI.Infrastructure
 
             Services.AddScoped<IRabbitMQPublisher, RabbitMQPublisher>();
             Services.AddScoped<IPublishDepartmentName, RabbitMQPublisherDepartmentName>();
-            Services.AddSingleton<IDepartmentIdResponseService,DepartmentIdResponseService>();
+            Services.AddSingleton<IDepartmentIdResponseService, DepartmentIdResponseService>();
+            Services.AddScoped<ICacheService, RedisCacheService>();
 
             return Services;
         }

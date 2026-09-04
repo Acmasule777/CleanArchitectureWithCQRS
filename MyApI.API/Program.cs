@@ -18,11 +18,20 @@ builder.Services.AddDiApi(builder.Configuration);
 builder.Services.AddScoped<RabbitMQPublisher>();
 builder.Services.AddHostedService<FromDepartmentNameGetIdConsumer>();
 
+//builder.Services.AddHttpClient("DepartmentService", client => { client.BaseAddress = new Uri("http://departmentservice:5051/"); });
+//builder.Services.AddHttpClient("PayrollService", client => { client.BaseAddress = new Uri("http://payrollservice:5052/"); });
+
 builder.Services.AddHttpClient("DepartmentService", client => { client.BaseAddress = new Uri("http://localhost:5297/"); });
 builder.Services.AddHttpClient("PayrollService", client => { client.BaseAddress = new Uri("http://localhost:5233/"); });
 
 builder.Services.AddValidatorsFromAssembly(typeof(createEmployeeCommandValidations).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(updateEmployeeValidationCommand).Assembly);
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+    options.InstanceName = "EmployeeService:";
+});
 
 var app = builder.Build();
 

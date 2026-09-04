@@ -21,10 +21,18 @@ public class EmployeeCreatedConsumer : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken cancellation)
     {
+        //var factory = new ConnectionFactory
+        //{
+        //    HostName = "rabbitmq-docker",
+        //    Port = 5672,
+        //    UserName = "guest",
+        //    Password = "guest"
+        //};
+
         var factory = new ConnectionFactory
         {
-            HostName = "rabbitmq-docker",
-            Port = 5672,
+            HostName = "localhost",
+            Port = 5673,
             UserName = "guest",
             Password = "guest"
         };

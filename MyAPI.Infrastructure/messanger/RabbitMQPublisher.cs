@@ -11,15 +11,23 @@ public class RabbitMQPublisher : IRabbitMQPublisher
     public async Task PublishEmployeeCreatedAsync(
         EmployeeCreatedMessage message)
     {
+        //var factory = new ConnectionFactory
+        //{
+        //    HostName = "rabbitmq-docker",
+        //    Port = 5672,
+        //    UserName = "guest",
+        //    Password = "guest"
+        //};
+
         var factory = new ConnectionFactory
         {
-            HostName = "rabbitmq-docker",
-            Port = 5672,
+            HostName = "localhost",
+            Port = 5673,
             UserName = "guest",
             Password = "guest"
         };
 
-       var connection =
+        var connection =
             await factory.CreateConnectionAsync();
 
          var channel =

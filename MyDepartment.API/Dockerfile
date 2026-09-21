@@ -1,5 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
+
 WORKDIR /src
 
 COPY ["MyDepartment.API/Department.API.csproj", "MyDepartment.API/"]

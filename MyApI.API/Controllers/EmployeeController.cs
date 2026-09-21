@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyAPI.Application.Commands.EmployeeCommand;
@@ -17,6 +18,7 @@ namespace MyApI.API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetAllEmployees")]
 
         public async Task<ActionResult<List<EmployeeDto>>> getAllEmployees()
@@ -25,6 +27,7 @@ namespace MyApI.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet("{id}")]
 
         public async Task<ActionResult<EmployeeDto>> getEmployeeById(int id)
@@ -37,6 +40,7 @@ namespace MyApI.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateEmployee")]
         public async Task<IActionResult> createEmployee([FromBody] EmployeeDto employee)
         {
@@ -49,6 +53,8 @@ namespace MyApI.API.Controllers
             return Ok(result);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateEmployee")]
 
         public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeUpdateDto employee)
@@ -61,6 +67,7 @@ namespace MyApI.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> DeleteEmployee(int id)

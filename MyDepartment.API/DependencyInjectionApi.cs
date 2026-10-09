@@ -8,9 +8,9 @@ namespace Department.API
     {
         public static IServiceCollection AddDiDepartmentApi(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDiDepartmentCore(config);
-            services.AddDiDepartmentApp();
-            services.AddDiDepartmentIfra();
+            services.AddDiDepartmentCore(config).AddDiDepartmentApp().AddDiDepartmentIfra();
+            //services.AddDiDepartmentApp();
+            //services.AddDiDepartmentIfra();
             return services;
         }
     }

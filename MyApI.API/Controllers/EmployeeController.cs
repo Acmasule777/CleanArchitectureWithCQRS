@@ -42,13 +42,14 @@ namespace MyApI.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("CreateEmployee")]
-        public async Task<IActionResult> createEmployee([FromBody] EmployeeDto employee)
+        public async Task<IActionResult> createEmployee([FromBody] EmployeeDto employee, [FromHeader] string Key)
         {
             var result = await _mediator.Send(new createEmployeeCommand(
                 employee.Name,
                 employee.City,
                 employee.Email,
-                employee.DepartmentName
+                employee.DepartmentName,
+                Key
                ));
             return Ok(result);
         }

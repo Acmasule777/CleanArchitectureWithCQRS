@@ -31,6 +31,8 @@ namespace MyAPI.Infrastructure
             Services.AddSingleton<IDepartmentIdResponseService, DepartmentIdResponseService>();
             Services.AddScoped<ICacheService, RedisCacheService>();
 
+            Services.AddScoped<IIdempotency, IdempotencyService>();
+
             return Services;
         }
 

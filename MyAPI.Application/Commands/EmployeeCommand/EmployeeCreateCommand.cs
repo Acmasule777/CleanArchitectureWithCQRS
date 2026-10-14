@@ -2,20 +2,49 @@
 using MyAPI.Application.Interfaces;
 using MyAPI.Core.DTO;
 using Shared;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 
 
 namespace MyAPI.Application.Commands.EmployeeCommand
 {
-    public record createEmployeeCommand (string Name, string City, string Email, string DepartmentName) : IRequest<string>;
-    public class createCommandHandler(IEmployee Emprepository, 
-        IDepartmentServiceClient DmpRepository, 
-        IRabbitMQPublisher rabbitMQPublisher
+    public record createEmployeeCommand (string Name, string City, string Email, string DepartmentName, string IdempotencyKey) : IRequest<string>;
+    public class createCommandHandler(IEmployee Emprepository,
+        IDepartmentServiceClient DmpRepository,
+        IRabbitMQPublisher rabbitMQPublisher,
+        IIdempotency potency
         /*IPublishDepartmentName rabbitmqDepartmentName,
         IDepartmentIdResponseService ResposeFromDepartment*/) : IRequestHandler<createEmployeeCommand, string>
     {
 
         public async Task<string> Handle(createEmployeeCommand request, CancellationToken cancellationToken)
         {
+            var requestHash = CreateRequestHash(request);
+
+            var existingRecord = await potency.GetAsync(request.IdempotencyKey, cancellationToken);
+
+            if (existingRecord is not null)
+            {
+
+                if (existingRecord.RequestHash != requestHash)
+                {
+                    throw new InvalidOperationException(
+                        "The idempotency key was used with a different request.");
+                }
+
+                if (existingRecord.Status == "Completed")
+                {
+                    return existingRecord.ResponseBody!;
+                }
+
+                //if (existingRecord.Status == IdempotencyStatus.Processing)
+                //{
+                //    throw new InvalidOperationException(
+                //        "The request is already being processed.");
+                //}
+            }
+
 
             //this is object for request-reply processing
             //var departmentNameRequest = new GetDepartmentRequest
@@ -24,12 +53,12 @@ namespace MyAPI.Application.Commands.EmployeeCommand
             //    CorrelationId = Guid.NewGuid().ToString()
             //};
 
-           var existingDepartment = await DmpRepository.GetDepartmentByNameAsync(request.DepartmentName);
+            var existingDepartment = await DmpRepository.GetDepartmentByNameAsync(request.DepartmentName);
 
             //This below code is for RabbitMq Request-reply messaging
-           // await rabbitmqDepartmentName.PublishMessageForDepartment(departmentNameRequest);
+            // await rabbitmqDepartmentName.PublishMessageForDepartment(departmentNameRequest);
 
-           //var existedDepartment = await ResposeFromDepartment.returnToHandler();
+            //var existedDepartment = await ResposeFromDepartment.returnToHandler();
 
             int departmentId;
 
@@ -55,6 +84,14 @@ namespace MyAPI.Application.Commands.EmployeeCommand
 
             var empId = await Emprepository.AddEmployee(employee);
 
+            string status = "Completed";
+
+            await potency.CreateAsync(
+                request.IdempotencyKey,
+                requestHash,
+                  status,
+                cancellationToken);
+
             var message = new EmployeeCreatedMessage
             {
                 EmployeeId = empId,
@@ -66,6 +103,24 @@ namespace MyAPI.Application.Commands.EmployeeCommand
 
             return "Employee Successfully Created";
         }
-    }
 
+
+        private static string CreateRequestHash(createEmployeeCommand request)
+        {
+            var requestToHash = new
+            {
+                request.Name,
+                request.City,
+                request.Email,
+                request.DepartmentName
+            };
+
+            var json = JsonSerializer.Serialize(requestToHash);
+
+            var bytes = Encoding.UTF8.GetBytes(json);
+            var hash = SHA256.HashData(bytes);
+
+            return Convert.ToHexString(hash);
+        }
+    }
 }

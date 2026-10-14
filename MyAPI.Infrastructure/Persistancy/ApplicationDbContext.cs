@@ -7,6 +7,8 @@ namespace MyAPI.Infrastructure.Persistancy
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<EmployeeEntity> Employees {  get; set; }
+        public DbSet<EmployeeEntity> Employees { get; set; }
+
+        public DbSet<IdempotencyEntity> IdempotencyEntities { get; set; }
     }
 }

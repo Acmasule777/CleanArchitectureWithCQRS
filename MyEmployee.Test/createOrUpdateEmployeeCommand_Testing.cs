@@ -17,13 +17,13 @@ namespace MyEmployee.Test
         private readonly createEmployeeCommandValidations _validations = new();
 
         [Theory]
-        [InlineData("", "pune","", "Engineering")]
-        [InlineData((string)null, "pune","", "Engineering")]
-        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune", "","Engineering")]
+        [InlineData("", "pune","", "Engineering", "iencie")]
+        [InlineData((string)null, "pune","", "Engineering","diefvhf")]
+        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune", "","Engineering", "eibnvoe")]
 
-        public void HandleValidationWhenCreateEmployeeforEmployeeName(string name, string city,string email, string departmentname)
+        public void HandleValidationWhenCreateEmployeeforEmployeeName(string name, string city,string email, string departmentname,string key)
         {
-            var command = new createEmployeeCommand(name, city, email, departmentname);
+            var command = new createEmployeeCommand(name, city, email, departmentname,key);
 
             var result = _validations.Validate(command);
 
@@ -33,13 +33,13 @@ namespace MyEmployee.Test
         }
 
         [Theory]
-        [InlineData("jayesh", "","", "Engineering")]
-        [InlineData("Jayesh", (string)null,"", "Engineering")]
-        [InlineData("Jayesh", "punekmjnbhnbhnjbhjbhnhbhnjbbijkj","", "Engineering")]
+        [InlineData("jayesh", "","", "Engineering","dcdd")]
+        [InlineData("Jayesh", (string)null,"", "Engineering","dkenov")]
+        [InlineData("Jayesh", "punekmjnbhnbhnjbhjbhnhbhnjbbijkj","", "Engineering","idjenvjo")]
 
-        public void HandleValidationWhenCreateEmployeeForCity(string name, string city,string email, string departmentname)
+        public void HandleValidationWhenCreateEmployeeForCity(string name, string city,string email, string departmentname,string key)
         {
-            var command = new createEmployeeCommand(name, city,email, departmentname);
+            var command = new createEmployeeCommand(name, city,email, departmentname, key);
 
             var result = _validations.Validate(command);
 

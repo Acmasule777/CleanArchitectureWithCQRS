@@ -22,12 +22,12 @@ namespace EmployeeTestWithGithubCopolit.Test
         //check validation for this employee service incomingdata is valid or not
 
         [Theory]
-        [InlineData("", "pune","", "Engineering")]
-        [InlineData((string)null, "pune","", "Engineering")]
-        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune","", "Engineering")]
-        public void Name_WhenInvalid_ShouldHaveValidationError(string name, string city, string Email, string departmentName)
+        [InlineData("", "pune","", "Engineering","djbnfjdnf")]
+        [InlineData((string)null, "pune","", "Engineering","eiudbvue")]
+        [InlineData("Jayeshpunekmjnbhnbhnjbhjbhnhbhnjbbijkjiutjgnhmvngjnvv", "pune","", "Engineering", "nnffnfjf")]
+        public void Name_WhenInvalid_ShouldHaveValidationError(string name, string city, string Email, string departmentName,string key)
         {
-            var command = new createEmployeeCommand(name, city,Email, departmentName);
+            var command = new createEmployeeCommand(name, city,Email, departmentName,key);
 
             var result = _validationRules.Validate(command);
 
